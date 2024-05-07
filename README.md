@@ -1,5 +1,8 @@
 # occupationcoder
 
+## Data Classification
+Bank of England Data Classification: OFFICIAL BLUE
+
 ## A tool to use job text, such as job description, to assign standard occupational classification codes
 
 Given a job title, job description, and job sector the algorithm assigns a 3-digit standard occupational classification (SOC) code to the job. The algorithm uses the **SOC 2010** standard, more details of which can be found on [the ONS' website](https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2010).
