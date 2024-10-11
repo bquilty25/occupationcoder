@@ -55,8 +55,8 @@ class Coder:
                 sys.exit( ("Occupationcoder message:\n")+
                     ("Please ensure a "+col+" column exists in your csv file"))
         # Ensure it's all in unicode
-        for col in self.colsToProcess:
-            df_all[col] = df_all[col].apply(lambda x: unicode(str(x),'utf-8','ignore'))
+        for col in df_all.columns:
+            df_all[col] = df_all[col].apply(lambda x: str(x).encode('utf-8', 'ignore').decode('utf-8'))
         df = df_all[self.colsToProcess]
 
         ## Generate dask dataframe from pandas dataframe to enable multiprocessing
@@ -71,9 +71,9 @@ class Coder:
         res3 = ds.apply(utils.clean_sector, axis = 1,\
         meta = ('x', datatype))
 
-        df['title_nospace'] =  res1.compute(get=dask.multiprocessing.get)
-        df['desc_nospace'] = res2.compute(get=dask.multiprocessing.get)
-        df['job_sector_nospace'] = res3.compute(get=dask.multiprocessing.get)
+        df['title_nospace'] =  res1.compute(scheduler='multiprocessing')
+        df['desc_nospace'] = res2.compute(scheduler='multiprocessing')
+        df['job_sector_nospace'] = res3.compute(scheduler='thrmultiprocessingeads')
 
         ## Combine cleaned job title, sector and description
         df['title_and_desc'] = df[['title_nospace', 'job_sector_nospace','desc_nospace']]\

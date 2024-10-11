@@ -129,10 +129,13 @@ def replace_punctuation(s):
     return s
 
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 class MLStripper(HTMLParser):
     def __init__(self):
+        super().__init__()
         self.reset()
+        self.strict = False
+        self.convert_charrefs = True
         self.fed = []
     def handle_data(self, d):
         self.fed.append(d)
